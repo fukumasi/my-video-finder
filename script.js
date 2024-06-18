@@ -1,22 +1,14 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // 検索バーの要素を取得
   const searchInput = document.getElementById('search');
   const videoList = document.querySelectorAll('.video-list li');
 
   searchInput.addEventListener('input', function() {
       const query = this.value.toLowerCase();
-      let hasResults = false;
       videoList.forEach(video => {
           const title = video.textContent.toLowerCase();
-          if (title.includes(query)) {
-              video.style.display = '';
-              hasResults = true;
-          } else {
-              video.style.display = 'none';
-          }
+          video.style.display = title.includes(query) ? '' : 'none';
       });
-      if (!hasResults) {
-          alert('No results found');
-      }
   });
 
   const filterSelect = document.getElementById('filter');
@@ -55,6 +47,22 @@ document.addEventListener('DOMContentLoaded', function() {
           } else {
               alert('Please write a review before submitting.');
           }
+      });
+  });
+
+  // 評価システムの実装（ここを追加）
+  const ratingStars = document.querySelectorAll('.rating span');
+  ratingStars.forEach(star => {
+      star.addEventListener('click', function() {
+          const stars = this.parentNode.querySelectorAll('span');
+          stars.forEach((s, index) => {
+              if (index <= Array.from(stars).indexOf(this)) {
+                  s.style.color = '#f5b301';
+              } else {
+                  s.style.color = '#ddd';
+              }
+          });
+          alert(`You rated this video ${Array.from(stars).indexOf(this) + 1} stars`);
       });
   });
 });

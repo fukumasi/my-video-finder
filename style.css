@@ -183,3 +183,18 @@ main {
 .review-form button:hover {
   background-color: #45a049;
 }
+.rating {
+  display: flex;
+  gap: 5px;
+}
+
+.rating span {
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #ddd;
+}
+
+.rating span:hover,
+.rating span:hover ~ span {
+  color: #f5b301;
+}
