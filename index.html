@@ -8,11 +8,35 @@
     <header>
         <h1>Welcome to My Video Finder</h1>
         <input type="text" id="search" placeholder="Search for videos...">
+        <button class="button">Search</button>
+        <select id="filter">
+            <option value="all">All Categories</option>
+            <option value="cooking">Cooking</option>
+            <option value="technology">Technology</option>
+        </select>
     </header>
     <main>
         <ul class="video-list">
-            <li>Sample Video 1: How to Cook</li>
-            <li>Sample Video 2: Learning JavaScript</li>
+            <li data-category="cooking">
+                <div class="video-details">
+                    <div class="video-title">Sample Video 1: How to Cook</div>
+                </div>
+                <button class="review-button" data-video="1">Add Review</button>
+                <div class="review-form" id="review-form-1">
+                    <textarea placeholder="Write your review..."></textarea>
+                    <button class="button submit-review" data-video="1">Submit</button>
+                </div>
+            </li>
+            <li data-category="technology">
+                <div class="video-details">
+                    <div class="video-title">Sample Video 2: Learning JavaScript</div>
+                </div>
+                <button class="review-button" data-video="2">Add Review</button>
+                <div class="review-form" id="review-form-2">
+                    <textarea placeholder="Write your review..."></textarea>
+                    <button class="button submit-review" data-video="2">Submit</button>
+                </div>
+            </li>
         </ul>
     </main>
     <script src="script.js"></script>
