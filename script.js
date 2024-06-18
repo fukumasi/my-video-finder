@@ -66,3 +66,97 @@ document.addEventListener('DOMContentLoaded', function() {
       });
   });
 });
+// コメント機能の実装
+const commentButtons = document.querySelectorAll('.submit-comment');
+commentButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const videoId = this.dataset.video;
+        const commentInput = this.previousElementSibling;
+        const commentText = commentInput.value;
+        if (commentText.trim() !== '') {
+            const commentsContainer = document.getElementById('comments-' + videoId);
+            const commentElement = document.createElement('div');
+            commentElement.classList.add('comment');
+            commentElement.textContent = commentText;
+            commentsContainer.appendChild(commentElement);
+            commentInput.value = ''; // 入力フィールドをクリア
+        } else {
+            alert('Please write a comment before submitting.');
+        }
+    });
+});
+    // 推薦動画機能の実装
+    function recommendVideos() {
+      const recommendationList = document.getElementById('recommendation-list');
+      const sampleVideos = [
+          'Recommended Video 1: Tips for Cooking',
+          'Recommended Video 2: JavaScript Basics',
+          'Recommended Video 3: Advanced Cooking Techniques',
+          'Recommended Video 4: Understanding CSS'
+      ];
+      sampleVideos.forEach(videoTitle => {
+          const listItem = document.createElement('li');
+          listItem.textContent = videoTitle;
+          recommendationList.appendChild(listItem);
+      });
+  }
+
+  recommendVideos(); // 推薦動画を表示
+// ログイン機能の実装
+const loginForm = document.getElementById('login-form');
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault(); // フォームのデフォルトの送信動作を防止
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    // 仮のユーザーデータ
+    const validUsername = 'user';
+    const validPassword = 'password';
+
+    if (username === validUsername && password === validPassword) {
+        alert('Login successful! Welcome ' + username);
+        // ログイン成功後の処理を追加 (例: ページ遷移、ユーザー情報表示など)
+    } else {
+        alert('Login failed. Please check your username and password.');
+    }
+});
+// 動画詳細情報の表示・非表示
+const showDetailsButtons = document.querySelectorAll('.show-details');
+showDetailsButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const videoId = this.dataset.video;
+        const videoInfo = document.getElementById('video-info-' + videoId);
+        if (videoInfo) {
+            videoInfo.style.display = videoInfo.style.display === 'none' || videoInfo.style.display === '' ? 'block' : 'none';
+        }
+    });
+});
+let selectedVideos = [];
+
+    // 動画比較機能の実装
+    const compareButtons = document.querySelectorAll('.compare-video');
+    compareButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const videoId = this.dataset.video;
+            if (!selectedVideos.includes(videoId)) {
+                selectedVideos.push(videoId);
+                this.textContent = 'Selected';
+                this.style.backgroundColor = '#4CAF50';
+            } else {
+                selectedVideos = selectedVideos.filter(id => id !== videoId);
+                this.textContent = 'Compare';
+                this.style.backgroundColor = '#ff9800';
+            }
+
+            if (selectedVideos.length >= 2) {
+                compareSelectedVideos();
+            }
+        });
+    });
+
+    function compareSelectedVideos() {
+        alert('Comparing videos: ' + selectedVideos.join(', '));
+        // 実際の比較処理をここに追加 (例: 比較ページに遷移、詳細比較表示など)
+        // ここでは簡易的にアラートで表示
+    }
