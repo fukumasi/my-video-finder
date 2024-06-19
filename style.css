@@ -1,3 +1,4 @@
+/* ベーススタイル */
 body {
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
@@ -8,25 +9,6 @@ body {
 h1 {
   color: #333;
   text-align: center;
-}
-
-.video-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.video-list li {
-  background: #fff;
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid #ddd;
-}
-/* ベーススタイル */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0f0f0;
-  margin: 0;
-  padding: 20px;
 }
 
 /* ヘッダー */
@@ -57,11 +39,29 @@ main {
 .video-list li {
   background: #fff;
   margin: 10px 0;
-  padding: 10px;
+  padding: 20px;
   border: 1px solid #ddd;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+.video-list li:hover {
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 動画詳細 */
+.video-details {
+  flex: 1;
+}
+
+.video-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
 /* ボタンのスタイル */
 .button {
   background-color: #4CAF50;
@@ -80,81 +80,10 @@ main {
 .button:hover {
   background-color: #45a049;
 }
-/* ボタンのスタイル */
-.button {
-  background-color: #4CAF50; /* 緑色の背景 */
-  border: none; /* ボーダーなし */
-  color: white; /* 白い文字 */
-  padding: 15px 32px; /* パディング */
-  text-align: center; /* 中央揃え */
-  text-decoration: none; /* テキスト装飾なし */
-  display: inline-block; /* インラインブロック */
-  font-size: 16px; /* フォントサイズ */
-  margin: 4px 2px; /* マージン */
-  cursor: pointer; /* カーソルがポインター */
-  border-radius: 12px; /* ボタンの角を丸くする */
-}
 
-.button:hover {
-  background-color: #45a049; /* ホバー時の背景色 */
-}
 /* レビュー投稿フォームのスタイル */
 .review-form {
-  display: none; /* 初期状態では非表示 */
-  margin-top: 10px;
-}
-
-.review-form textarea {
-  width: 100%;
-  height: 100px;
-  margin-bottom: 10px;
-}
-/* 動画リストのスタイル */
-.video-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.video-list li {
-  background: #fff;
-  margin: 10px 0;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  display: flex; /* フレックスボックスを使用 */
-  justify-content: space-between;
-  align-items: center;
-}
-
-.video-list li:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
-.video-details {
-  flex: 1;
-}
-
-.video-title {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-.review-button {
-  background-color: #008CBA;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.review-button:hover {
-  background-color: #007BA7;
-}
-
-/* レビュー入力欄のスタイル */
-.review-form {
+  display: none;
   margin-top: 10px;
   padding: 10px;
   background-color: #f9f9f9;
@@ -183,6 +112,8 @@ main {
 .review-form button:hover {
   background-color: #45a049;
 }
+
+/* 評価システムのスタイル */
 .rating {
   display: flex;
   gap: 5px;
@@ -198,6 +129,7 @@ main {
 .rating span:hover ~ span {
   color: #f5b301;
 }
+
 /* コメントセクションのスタイル */
 .comment-section {
   margin-top: 10px;
@@ -233,6 +165,7 @@ main {
   padding: 10px;
   border-top: 1px solid #ccc;
 }
+
 /* 推薦動画セクションのスタイル */
 .recommended-videos {
   margin-top: 20px;
@@ -257,6 +190,7 @@ main {
   border: 1px solid #ddd;
   border-radius: 5px;
 }
+
 /* ログインフォームのスタイル */
 .login-section {
   margin-top: 20px;
@@ -289,9 +223,43 @@ main {
 .login-section button:hover {
   background-color: #45a049;
 }
+
+/* 会員登録フォームのスタイル */
+.register-section {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+}
+
+.register-section form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.register-section input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.register-section button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.register-section button:hover {
+  background-color: #45a049;
+}
+
 /* 詳細情報セクションのスタイル */
 .video-info {
-  display: none; /* 初期状態では非表示 */
+  display: none;
   margin-top: 10px;
   padding: 10px;
   background-color: #e9e9e9;
@@ -302,6 +270,7 @@ main {
 .video-info p {
   margin: 5px 0;
 }
+
 /* 比較ボタンのスタイル */
 .compare-video {
   background-color: #ff9800;
@@ -316,18 +285,20 @@ main {
 .compare-video:hover {
   background-color: #e68900;
 }
-/* 詳細情報セクションのスタイル */
-.video-info {
-  display: none; /* 初期状態では非表示 */
-  margin-top: 10px;
-  padding: 10px;
-  background-color: #e9e9e9;
-  border-radius: 5px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-}
 
-.video-info p {
-  margin: 5px 0;
-}
+/* レスポンシブデザインのメディアクエリ */
+@media (max-width: 600px) {
+  .video-list li {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-/* 追加のスタイルが必要な場合、他のセクションのスタイルも適宜調整 */
+  .video-details,
+  .video-info {
+    width: 100%;
+  }
+
+  .video-info {
+    padding: 5px;
+  }
+}
