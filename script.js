@@ -16,11 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     filterSelect.addEventListener('change', function() {
         const category = this.value;
         videoList.forEach(video => {
-            if (category === 'all' || video.dataset.category === category) {
-                video.style.display = '';
-            } else {
-                video.style.display = 'none';
-            }
+            video.style.display = (category === 'all' || video.dataset.category === category) ? '' : 'none';
         });
     });
 
@@ -58,11 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', function() {
             const stars = this.parentNode.querySelectorAll('span');
             stars.forEach((s, index) => {
-                if (index <= Array.from(stars).indexOf(this)) {
-                    s.style.color = '#f5b301';
-                } else {
-                    s.style.color = '#ddd';
-                }
+                s.style.color = index <= Array.from(stars).indexOf(this) ? '#f5b301' : '#ddd';
             });
             alert(`You rated this video ${Array.from(stars).indexOf(this) + 1} stars`);
         });
@@ -183,12 +175,13 @@ document.addEventListener('DOMContentLoaded', function() {
         registerForm.reset();
     });
 
-    // 推薦動画の生成
+    // ユーザーの視聴履歴を取得
     function getUserHistory() {
         // 仮の視聴履歴データ
         return ['cooking', 'technology'];
     }
 
+    // 推薦動画を生成する
     function generateRecommendations(history) {
         const recommendationList = document.getElementById('recommendation-list');
         recommendationList.innerHTML = ''; // 既存の推薦動画をクリア
@@ -209,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ユーザーの視聴履歴を取得して推薦動画を生成
     const userHistory = getUserHistory();
     generateRecommendations(userHistory);
 });

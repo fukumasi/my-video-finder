@@ -34,6 +34,7 @@ main {
 .video-list {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 .video-list li {
@@ -289,16 +290,16 @@ main {
 /* レスポンシブデザインのメディアクエリ */
 @media (max-width: 600px) {
   .video-list li {
-    flex-direction: column;
-    align-items: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
   }
 
   .video-details,
   .video-info {
-    width: 100%;
+      width: 100%;
   }
 
   .video-info {
-    padding: 5px;
+      padding: 5px;
   }
 }
