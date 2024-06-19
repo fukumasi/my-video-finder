@@ -25,6 +25,7 @@
                     </div>
                     <button class="button show-details" data-video="1">Show Details</button>
                     <button class="button compare-video" data-video="1">Compare</button>
+                    <button class="button favorite-video" data-video="1">Favorite</button>
                 </div>
                 <div class="video-info" id="video-info-1">
                     <p>Description: This is a sample video about cooking.</p>
@@ -50,6 +51,7 @@
                     </div>
                     <button class="button show-details" data-video="2">Show Details</button>
                     <button class="button compare-video" data-video="2">Compare</button>
+                    <button class="button favorite-video" data-video="2">Favorite</button>
                 </div>
                 <div class="video-info" id="video-info-2">
                     <p>Description: This is a sample video about JavaScript.</p>
@@ -76,6 +78,7 @@
                     </div>
                     <button class="button show-details" data-video="3">Show Details</button>
                     <button class="button compare-video" data-video="3">Compare</button>
+                    <button class="button favorite-video" data-video="3">Favorite</button>
                 </div>
                 <div class="video-info" id="video-info-3">
                     <p>Description: This is a sample video about gourmet cooking.</p>
@@ -94,38 +97,34 @@
                 </div>
             </li>
         </ul>
-
+        
         <section class="recommended-videos">
             <h2>Recommended Videos</h2>
             <ul id="recommendation-list">
                 <!-- 推薦動画が動的に追加されます -->
             </ul>
         </section>
-
-        <section class="register-section">
-            <h2>Register</h2>
-            <form id="register-form">
-                <input type="text" id="new-username" placeholder="Username" required>
-                <input type="password" id="new-password" placeholder="Password" required>
-                <button type="submit" class="button">Register</button>
-            </form>
-        </section>
-
-        <section class="login-section">
-            <h2>Login</h2>
-            <form id="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit" class="button">Login</button>
-            </form>
-        </section>
-
-        <section class="dashboard" id="dashboard" style="display: none;">
-            <h2>Welcome, <span id="user-name"></span></h2>
-            <p>Here you can manage your account and see your activity.</p>
-        </section>
     </main>
-
+    <section class="register-section">
+        <h2>Register</h2>
+        <form id="register-form">
+            <input type="text" id="new-username" placeholder="Username" required>
+            <input type="password" id="new-password" placeholder="Password" required>
+            <button type="submit" class="button">Register</button>
+        </form>
+    </section>
+    <section class="login-section">
+        <h2>Login</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="button">Login</button>
+        </form>
+    </section>
+    <section class="dashboard" id="dashboard" style="display: none;">
+        <h2>Welcome, <span id="user-name"></span></h2>
+        <p>Here you can manage your account and see your activity.</p>
+    </section>
     <script src="script.js"></script>
 </body>
 </html>

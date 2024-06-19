@@ -16,7 +16,11 @@ document.addEventListener('DOMContentLoaded', function() {
     filterSelect.addEventListener('change', function() {
         const category = this.value;
         videoList.forEach(video => {
-            video.style.display = (category === 'all' || video.dataset.category === category) ? '' : 'none';
+            if (category === 'all' || video.dataset.category === category) {
+                video.style.display = '';
+            } else {
+                video.style.display = 'none';
+            }
         });
     });
 
@@ -54,7 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
         star.addEventListener('click', function() {
             const stars = this.parentNode.querySelectorAll('span');
             stars.forEach((s, index) => {
-                s.style.color = index <= Array.from(stars).indexOf(this) ? '#f5b301' : '#ddd';
+                if (index <= Array.from(stars).indexOf(this)) {
+                    s.style.color = '#f5b301';
+                } else {
+                    s.style.color = '#ddd';
+                }
             });
             alert(`You rated this video ${Array.from(stars).indexOf(this) + 1} stars`);
         });

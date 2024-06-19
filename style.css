@@ -82,6 +82,21 @@ main {
   background-color: #45a049;
 }
 
+/* お気に入りボタンのスタイル */
+.favorite-video {
+  background-color: #FFD700;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+.favorite-video:hover {
+  background-color: #FFC700;
+}
+
 /* レビュー投稿フォームのスタイル */
 .review-form {
   display: none;
