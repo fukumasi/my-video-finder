@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Video Finder</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to My Video Finder</h1>
+        <input type="text" id="search" placeholder="Search for videos...">
+        <button class="button">Search</button>
+        <select id="filter">
+            <option value="all">All Categories</option>
+            <option value="cooking">Cooking</option>
+            <option value="technology">Technology</option>
+            <option value="education">Education</option>
+            <option value="art">Art</option>
+            <option value="testing">Testing</option>
+        </select>
+    </header>
+    <main>
+        <section id="genre-buttons">
+            <h2>Browse by Genre</h2>
+            <a href="javascript:void(0);" class="category-link" data-category="all">All</a>
+            <a href="javascript:void(0);" class="category-link" data-category="cooking">Cooking</a>
+            <a href="javascript:void(0);" class="category-link" data-category="technology">Technology</a>
+            <a href="javascript:void(0);" class="category-link" data-category="education">Education</a>
+            <a href="javascript:void(0);" class="category-link" data-category="art">Art</a>
+            <a href="javascript:void(0);" class="category-link" data-category="testing">Testing</a>
+        </section>
+
+        <section id="video-container">
+            <ul class="video-list">
+                <!-- 動的に動画リストが追加されます -->
+            </ul>
+        </section>
+
+        <section class="recommended-videos">
+            <h2>Recommended Videos</h2>
+            <ul id="recommendation-list">
+                <!-- 推薦動画が動的に追加されます -->
+            </ul>
+        </section>
+
+        <section class="add-video">
+            <h2>Add New Video</h2>
+            <form id="add-video-form">
+                <input type="text" id="video-title" placeholder="Title" required>
+                <input type="text" id="video-category" placeholder="Category" required>
+                <textarea id="video-description" placeholder="Description" required></textarea>
+                <input type="number" id="video-views" placeholder="Views" required>
+                <input type="number" id="video-likes" placeholder="Likes" required>
+                <input type="number" id="video-rating" placeholder="Rating" required>
+                <button type="submit" class="button">Add Video</button>
+            </form>
+        </section>
+
+        <section class="register-section">
+            <h2>Register</h2>
+            <form id="register-form">
+                <input type="text" id="new-username" placeholder="Username" required>
+                <input type="password" id="new-password" placeholder="Password" required>
+                <button type="submit" class="button">Register</button>
+            </form>
+        </section>
+
+        <section class="login-section">
+            <h2>Login</h2>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <button type="submit" class="button">Login</button>
+            </form>
+        </section>
+
+        <section class="dashboard" id="dashboard" style="display: none;">
+            <h2>Welcome, <span id="user-name"></span></h2>
+            <p>Here you can manage your account and see your activity.</p>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
