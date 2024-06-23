@@ -360,3 +360,54 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.location.pathname.endsWith('genre.html')) {
         document.addEventListener('DOMContentLoaded', displayGenreVideos);
     }
+    function fetchUserProfile() {
+        // 正しいユーザーIDをここで取得
+        const userId = localStorage.getItem('userId'); // 例としてlocalStorageから取得
+        if (!userId) {
+            console.error('User ID not found');
+            return;
+        }
+    
+        fetch(`/api/user/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(user => {
+                document.getElementById('username').value = user.username || 'undefined';
+                document.getElementById('email').value = user.email || 'undefined';
+            })
+            .catch(error => console.error('Error fetching user:', error));
+    }
+    
+    
+    // プロフィールページが読み込まれた時にユーザー情報を表示
+    if (window.location.pathname.endsWith('profile.html')) {
+        document.addEventListener('DOMContentLoaded', fetchUserProfile);
+    }
+    
+    
+    document.getElementById('profile-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const userId = 'ユーザーのIDを取得する方法をここに実装'; // 例: ログイン時に保存したユーザーIDを使う
+    
+        fetch(`/api/user/${userId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Profile updated successfully');
+            // フィードバックやUIの更新を行う
+        })
+        .catch(error => console.error('Error updating profile:', error));
+    });
+    

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>User Profile</h1>
+        <a href="index.html">Back to Home</a>
+    </header>
+    <main>
+        <section class="user-profile">
+            <h2>Your Profile</h2>
+            <form id="profile-form">
+                <label for="username">Username:</label>
+                <input type="text" id="username" disabled>
+                
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="password">New Password:</label>
+                <input type="password" id="password">
+                
+                <button type="submit" class="button">Update Profile</button>
+            </form>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>

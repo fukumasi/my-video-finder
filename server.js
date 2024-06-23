@@ -1,7 +1,10 @@
-const express = require('express');
 const mongoose = require('mongoose');
+
+const express = require('express');
 const cors = require('cors');
 const app = express();
+
+app.use(cors()); // これを追加してCORSを有効にします
 
 mongoose.connect('mongodb+srv://fukumasi:JU9PiGhLaRTdDlYs@cluster0.l1ibnnc.mongodb.net/my-video-finder?retryWrites=true&w=majority', {
   useNewUrlParser: true,
@@ -73,4 +76,34 @@ app.post('/api/videos', async (req, res) => {
 const PORT = 3000;
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+app.get('/api/user/:id', async (req, res) => {
+  try {
+      const user = await User.findById(req.params.id);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(user);
+  } catch (error) {
+      res.status(500).json({ message: 'Error fetching user' });
+  }
+});
+
+app.put('/api/user/:id', async (req, res) => {
+  try {
+      const { email, password } = req.body;
+      const user = await User.findById(req.params.id);
+      if (!user) {
+          return res.status(404).json({ message: 'User not found' });
+      }
+
+      user.email = email || user.email;
+      if (password) {
+          user.password = bcrypt.hashSync(password, 10);
+      }
+      await user.save();
+      res.json({ message: 'User updated successfully' });
+  } catch (error) {
+      res.status(500).json({ message: 'Error updating user' });
+  }
 });
