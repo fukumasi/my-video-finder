@@ -1,62 +1,41 @@
+/* 全体のスタイル */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
+  background-color: #f4f9f4; /* 薄緑色の背景 */
   margin: 0;
   padding: 0;
+  color: #333; /* テキストの色 */
 }
 
+/* ヘッダー */
 header {
-  background-color: #333;
-  color: #22d3cd;
+  background-color: #8fcf9e; /* 薄緑色 */
+  color: #fff; /* テキストを白に */
   padding: 1rem;
   text-align: center;
-
-}
-/* Back to Home ボタンのスタイル */
-header a {
-  color: #ffffff; /* 白色のテキスト */
-  background-color: #4CAF50; /* 緑色の背景 */
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  display: inline-block;
-  margin: 10px 0;
-  transition: background-color 0.3s, color 0.3s;
+  border-bottom: 2px solid #6ea578; /* 濃い緑色のボーダー */
 }
 
-header a:hover {
-  background-color: #45a049; /* 背景色を少し濃くする */
-  color: #ffffff; /* 白色のテキスト */
-}
-
-header input, header select, header button {
+/* ヘッダーのリンクとボタン */
+header a, header input, header select, header button {
   margin: 0.5rem;
   padding: 0.5rem;
   font-size: 1rem;
-  color: #22d3cd;
+  color: #333; /* テキストの色 */
 }
 
-main {
-  padding: 1rem;
-}
-button {
-  background-color: #4CAF50; /* 緑色の背景 */
-  color: white; /* 白色のテキスト */
-  border: none;
+header input, header select {
+  border: 1px solid #8fcf9e; /* 薄緑色のボーダー */
   border-radius: 5px;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+  padding: 0.5rem;
 }
 
-button:hover {
-  background-color: #45a049; /* 背景色を少し濃く */
+/* メインコンテンツ */
+main {
+  padding: 2rem;
 }
 
+/* ジャンルボタン */
 #genre-buttons {
   margin-bottom: 2rem;
   text-align: center;
@@ -66,23 +45,25 @@ button:hover {
   margin: 0.5rem;
   padding: 0.5rem 1rem;
   text-decoration: none;
-  color: #333;
-  background-color: #4CAF50;;
-  border: 5px solid #e79999;
+  color: #fff; /* テキストを白に */
+  background-color: #8fcf9e; /* 薄緑色の背景 */
+  border: 1px solid #6ea578; /* 濃い緑色のボーダー */
   border-radius: 5px;
 }
 
 #genre-buttons a:hover {
-  background-color: #ddd;
+  background-color: #6ea578; /* 濃い緑色 */
 }
 
+/* ビデオリスト */
 .video-list, #recommendation-list, #genre-video-list {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .video-list li, #recommendation-list li, #genre-video-list li {
-  background-color: #fff;
+  background-color: #fff; /* 白背景 */
   margin: 0.5rem 0;
   padding: 1rem;
   border: 1px solid #ddd;
@@ -96,18 +77,34 @@ button:hover {
 .video-title {
   font-size: 1.5rem;
   font-weight: bold;
+  color: #333; /* テキストの色 */
 }
 
+/* レーティング */
 .rating {
-  color: gold;
+  color: gold; /* 星の色 */
 }
 
-.show-details, .compare-video, .submit-review, .submit-comment {
-  margin-top: 0.5rem;
-  display: block;
-  width: 100%;
+/* ボタンのスタイル */
+button {
+  background-color: #8fcf9e; /* 薄緑色 */
+  color: white; /* 白色のテキスト */
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
 }
 
+button:hover {
+  background-color: #6ea578; /* 背景色を少し濃く */
+}
+
+/* レビューとコメントフォーム */
 .review-form, .comment-section {
   display: none;
 }
@@ -118,8 +115,9 @@ button:hover {
   padding-top: 0.5rem;
 }
 
+/* フォームのスタイル */
 .add-video, .register-section, .login-section, .dashboard {
-  background-color: #fff;
+  background-color: #fff; /* 白背景 */
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -140,12 +138,13 @@ button:hover {
 
 .add-video form button, .register-section form button, .login-section form button {
   padding: 0.5rem;
-  background-color: #333;
-  color: #fff;
+  background-color: #8fcf9e; /* 薄緑色 */
+  color: #fff; /* 白色のテキスト */
   border: none;
   border-radius: 5px;
 }
 
+/* フィルタリングとソートオプション */
 .filter-options, .sort-options {
   margin: 1rem 0;
   display: flex;
@@ -154,4 +153,5 @@ button:hover {
 
 .filter-options label, .sort-options label {
   margin-right: 0.5rem;
+  color: #333; /* テキストの色 */
 }

@@ -1,109 +1,74 @@
-const mongoose = require('mongoose');
-
+require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
+const mongoose = require('mongoose');
+const path = require('path');
+const Video = require('./models/video');
+const Review = require('./models/review');
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(cors()); // これを追加してCORSを有効にします
-
-mongoose.connect('mongodb+srv://fukumasi:JU9PiGhLaRTdDlYs@cluster0.l1ibnnc.mongodb.net/my-video-finder?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+// MongoDBに接続
+mongoose.connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
 })
 .then(() => console.log('Connected to MongoDB'))
-.catch(err => console.log('Error connecting to MongoDB:', err));
+.catch(err => console.error('Error connecting to MongoDB:', err));
 
-// ミドルウェア
-app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
-app.use(express.static('public'));
 
-// モデル定義
-const videoSchema = new mongoose.Schema({
-  title: String,
-  category: String,
-  description: String,
-  views: Number,
-  likes: Number,
-  rating: Number
-});
-
-const Video = mongoose.model('Video', videoSchema);
-
-// 全動画を取得するエンドポイント
+// 動画の取得API
 app.get('/api/videos', async (req, res) => {
-  try {
-    const videos = await Video.find();
-    res.json(videos);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching videos' });
-  }
+    try {
+        const category = req.query.category;
+        let videos;
+        if (category) {
+            videos = await Video.find({ category });
+        } else {
+            videos = await Video.find({});
+        }
+        res.json(videos);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-// 特定のカテゴリの動画を取得するエンドポイント
-app.get('/api/videos/category/:category', async (req, res) => {
-  const category = req.params.category;
-  try {
-    const videos = await Video.find({ category });
-    res.json(videos);
-  } catch (error) {
-    res.status(500).json({ error: 'Error fetching videos by category' });
-  }
+// レビューの取得API
+app.get('/api/reviews/:videoId', async (req, res) => {
+    try {
+        const reviews = await Review.find({ videoId: req.params.videoId });
+        res.json(reviews);
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).send(error.message);
+    }
 });
 
-// 動画を追加するエンドポイント
-app.post('/api/videos', async (req, res) => {
-  const { title, category, description, views, likes, rating } = req.body;
-
-  const video = new Video({
-    title,
-    category,
-    description,
-    views,
-    likes,
-    rating
-  });
-
-  try {
-    const newVideo = await video.save();
-    res.status(201).json(newVideo);
-  } catch (error) {
-    res.status(400).json({ error: 'Error creating video' });
-  }
+// レビューの投稿API
+app.post('/api/reviews', async (req, res) => {
+    try {
+        const review = new Review(req.body);
+        await review.save();
+        res.status(201).json(review);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
-// サーバー起動
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
-app.get('/api/user/:id', async (req, res) => {
-  try {
-      const user = await User.findById(req.params.id);
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
-      res.json(user);
-  } catch (error) {
-      res.status(500).json({ message: 'Error fetching user' });
-  }
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.put('/api/user/:id', async (req, res) => {
-  try {
-      const { email, password } = req.body;
-      const user = await User.findById(req.params.id);
-      if (!user) {
-          return res.status(404).json({ message: 'User not found' });
-      }
+app.get('/genre.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'genre.html'));
+});
 
-      user.email = email || user.email;
-      if (password) {
-          user.password = bcrypt.hashSync(password, 10);
-      }
-      await user.save();
-      res.json({ message: 'User updated successfully' });
-  } catch (error) {
-      res.status(500).json({ message: 'Error updating user' });
-  }
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
 });

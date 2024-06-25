@@ -1,15 +1,24 @@
 {
   "env": {
-    "browser": true,
-    "es2021": true
+    "browser": true,  // ブラウザ環境向けのグローバル変数を許可
+    "es2021": true   // ES2021の機能を許可
   },
-  "extends": "eslint:recommended",
+  "extends": "eslint:recommended",  // 推奨されるルールセットを使用
   "parserOptions": {
-    "ecmaVersion": 12,
-    "sourceType": "module"
+    "ecmaVersion": 12,  // ECMAScript 12（ES2021）の機能を許可
+    "sourceType": "module"  // ESモジュールとして解釈
   },
   "rules": {
-    "semi": ["error", "always"],
-    "quotes": ["error", "double"]
+    "semi": ["error", "always"],  // セミコロンを必須
+    "quotes": ["error", "double"],  // ダブルクオートを必須
+    "no-unused-vars": ["warn"],  // 未使用の変数に警告
+    "no-console": "off",  // コンソールログを許可
+    "indent": ["error", 2],  // インデントをスペース2つに統一
+    "eqeqeq": ["error", "always"],  // 厳密な等価演算子を強制
+    "no-trailing-spaces": "error",  // 行末のスペースを禁止
+    "comma-dangle": ["error", "never"],  // 最後の要素の後のカンマを禁止
+    "no-multiple-empty-lines": ["error", { "max": 1 }],  // 空行の連続を最大1行に制限
+    "object-curly-spacing": ["error", "always"],  // オブジェクトの波括弧内にスペースを強制
+    "arrow-spacing": ["error", { "before": true, "after": true }]  // アロー関数の矢印の前後にスペースを強制
   }
 }
