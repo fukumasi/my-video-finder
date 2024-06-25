@@ -1,29 +1,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+// const Item = require("./models/Item"); // 未使用のため削除
+const itemRoutes = require("./routes/items");
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;
-const MONGO_URI = "mongodb+srv://fukumasi:JU9PiGhLaRTdDlYs@cluster0.l1ibnnc.mongodb.net/yourDB?retryWrites=true&w=majority";
-
-// MongoDB接続
-mongoose.connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("MongoDB connected...");
-}).catch(err => {
-    console.error("MongoDB connection error:", err);
-});
-
-// ミドルウェア
+app.use(cors());
 app.use(express.json());
 
-// サンプルルート
-app.get("/", (req, res) => {
-    res.send("Hello World!");
-});
+mongoose.connect(
+  "mongodb+srv://fukumasi:JU9PiGhLaRTdDlYs@cluster0.l1ibnnc.mongodb.net/yourDB",
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  }
+);
 
-// サーバー起動
-app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}/`);
+const db = mongoose.connection;
+db.on("error", (error) => console.error(error));
+db.once("open", () => console.log("MongoDB connected..."));
+
+app.use("/items", itemRoutes);
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}/`);
 });
