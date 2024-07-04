@@ -1,157 +1,217 @@
-/* 全体のスタイル */
+/* 共通スタイル */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f9f4; /* 薄緑色の背景 */
   margin: 0;
   padding: 0;
-  color: #333; /* テキストの色 */
+  box-sizing: border-box;
+  background-color: #ffffff;
 }
 
-/* ヘッダー */
 header {
-  background-color: #8fcf9e; /* 薄緑色 */
-  color: #fff; /* テキストを白に */
-  padding: 1rem;
-  text-align: center;
-  border-bottom: 2px solid #6ea578; /* 濃い緑色のボーダー */
+  background-color: #0044cc;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-/* ヘッダーのリンクとボタン */
-header a, header input, header select, header button {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  font-size: 1rem;
-  color: #333; /* テキストの色 */
-}
-
-header input, header select {
-  border: 1px solid #8fcf9e; /* 薄緑色のボーダー */
-  border-radius: 5px;
-  padding: 0.5rem;
-}
-
-/* メインコンテンツ */
-main {
-  padding: 2rem;
-}
-
-/* ジャンルボタン */
-#genre-buttons {
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-#genre-buttons a {
-  margin: 0.5rem;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  color: #fff; /* テキストを白に */
-  background-color: #8fcf9e; /* 薄緑色の背景 */
-  border: 1px solid #6ea578; /* 濃い緑色のボーダー */
-  border-radius: 5px;
-}
-
-#genre-buttons a:hover {
-  background-color: #6ea578; /* 濃い緑色 */
-}
-
-/* ビデオリスト */
-.video-list, #recommendation-list, #genre-video-list {
-  list-style: none;
-  padding: 0;
+h1 {
   margin: 0;
+  font-size: 24px;
 }
 
-.video-list li, #recommendation-list li, #genre-video-list li {
-  background-color: #fff; /* 白背景 */
-  margin: 0.5rem 0;
-  padding: 1rem;
+nav a {
+  color: white;
+  text-decoration: none;
+  margin-left: 10px;
+  font-size: 14px;
+}
+
+main {
+  padding: 20px;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2em;
+}
+
+.genre-item {
+  width: 200px;
+  margin: 15px;
+  text-align: center;
+  background-color: #ffffff;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.genre-item a {
+  color: #333333;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.genre-item a:hover {
+  transform: scale(1.05);
+  background-color: #e6f7ff;
+}
+
+.genre-item img {
+  width: 80px;
+  height: 80px;
+}
+
+.genre-item h3 {
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+footer {
+  background-color: #333333;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 14px;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+/* 検索結果ページのスタイル */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin: 1em 0;
+  padding: 1em;
+  background-color: #fff;
   border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-item img {
+  max-width: 150px;
+  max-height: 100px;
+  margin-right: 1em;
+  border-radius: 4px;
+}
+
+.search-item h3 {
+  font-size: 1.2em;
+  margin: 0 0 0.5em;
+}
+
+.search-item p {
+  margin: 0;
+  color: #555;
+}
+
+@media (max-width: 600px) {
+  .search-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-item img {
+    margin-bottom: 1em;
+  }
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 600px) {
+  .genre-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* 検索バーのスタイル */
+.search-bar {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.search-bar input[type="text"] {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.video-details {
-  margin-bottom: 1rem;
+.search-bar select {
+  padding: 10px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-.video-title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333; /* テキストの色 */
-}
-
-/* レーティング */
-.rating {
-  color: gold; /* 星の色 */
-}
-
-/* ボタンのスタイル */
-button {
-  background-color: #8fcf9e; /* 薄緑色 */
-  color: white; /* 白色のテキスト */
+.search-bar button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #0044cc;
+  color: white;
   border: none;
   border-radius: 5px;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #6ea578; /* 背景色を少し濃く */
+.search-bar button:hover {
+  background-color: #003399;
 }
+/* public/style.css */
 
-/* レビューとコメントフォーム */
-.review-form, .comment-section {
-  display: none;
-}
-
-.comment {
-  border-top: 1px solid #ddd;
-  margin-top: 0.5rem;
-  padding-top: 0.5rem;
-}
-
-/* フォームのスタイル */
-.add-video, .register-section, .login-section, .dashboard {
-  background-color: #fff; /* 白背景 */
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin: 1rem 0;
-}
-
-.add-video form, .register-section form, .login-section form {
+/* 検索バーのスタイル */
+.search-bar {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  margin: 20px 0;
 }
 
-.add-video form input, .add-video form textarea, .register-section form input, .login-section form input {
-  margin-bottom: 0.5rem;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
+.search-bar input[type="text"] {
+  padding: 10px;
+  width: 300px;
+  border: 1px solid #ccc;
   border-radius: 5px;
 }
 
-.add-video form button, .register-section form button, .login-section form button {
-  padding: 0.5rem;
-  background-color: #8fcf9e; /* 薄緑色 */
-  color: #fff; /* 白色のテキスト */
+.search-bar select {
+  padding: 10px;
+  margin-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-bar button {
+  padding: 10px 20px;
+  margin-left: 10px;
+  background-color: #0044cc;
+  color: white;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
 }
 
-/* フィルタリングとソートオプション */
-.filter-options, .sort-options {
-  margin: 1rem 0;
-  display: flex;
-  justify-content: space-around;
-}
-
-.filter-options label, .sort-options label {
-  margin-right: 0.5rem;
-  color: #333; /* テキストの色 */
+.search-bar button:hover {
+  background-color: #003399;
 }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Video Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>My Video Finder</h1>
+        <nav>
+            <a href="/">ホーム</a>
+            <a href="/logout">ログアウト</a>
+            <a href="/profile">プロフィール</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>動画ジャンル一覧</h2>
+            <form class="search-bar" action="/search" method="get">
+                <input type="text" name="query" placeholder="キーワード検索">
+                <select name="genre">
+                    <option value="">すべてのジャンル</option>
+                    <option value="music">音楽</option>
+                    <option value="education">教育</option>
+                    <option value="entertainment">エンターテインメント</option>
+                    <option value="sports">スポーツ</option>
+                    <option value="news">ニュース</option>
+                    <option value="travel">旅行</option>
+                    <option value="gaming">ゲーム</option>
+                    <option value="howto">ハウツー</option>
+                    <option value="comedy">コメディ</option>
+                    <option value="film">映画</option>
+                    <option value="pets">ペット</option>
+                    <option value="people">ブログ</option>
+                    <option value="tech">テクノロジー</option>
+                    <option value="auto">自動車</option>
+                    <option value="nonprofits">非営利</option>
+                    <option value="cooking">料理</option>
+                    <option value="art">アート</option>
+                    <option value="fashion">ファッション</option>
+                    <option value="business">ビジネス</option>
+                    <option value="health">健康</option>
+                </select>
+                <button type="submit">検索</button>
+            </form>
+            <div class="genre-list">
+                <div class="genre-item">
+                    <a href="/genre/music">
+                        <img src="{{ url_for('static', filename='img/genreimages/music.png') }}" alt="音楽">
+                        <h3>音楽</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/education">
+                        <img src="{{ url_for('static', filename='img/genreimages/education.png') }}" alt="教育">
+                        <h3>教育</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/entertainment">
+                        <img src="{{ url_for('static', filename='img/genreimages/entertainment.png') }}" alt="エンターテインメント">
+                        <h3>エンターテインメント</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/sports">
+                        <img src="{{ url_for('static', filename='img/genreimages/sports.png') }}" alt="スポーツ">
+                        <h3>スポーツ</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/news">
+                        <img src="{{ url_for('static', filename='img/genreimages/news.png') }}" alt="ニュース">
+                        <h3>ニュース</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/travel">
+                        <img src="{{ url_for('static', filename='img/genreimages/travel.png') }}" alt="旅行">
+                        <h3>旅行</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/gaming">
+                        <img src="{{ url_for('static', filename='img/genreimages/gaming.png') }}" alt="ゲーム">
+                        <h3>ゲーム</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/howto">
+                        <img src="{{ url_for('static', filename='img/genreimages/howto.png') }}" alt="ハウツー">
+                        <h3>ハウツー</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/comedy">
+                        <img src="{{ url_for('static', filename='img/genreimages/comedy.png') }}" alt="コメディ">
+                        <h3>コメディ</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/film">
+                        <img src="{{ url_for('static', filename='img/genreimages/film.png') }}" alt="映画">
+                        <h3>映画</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/pets">
+                        <img src="{{ url_for('static', filename='img/genreimages/pets.png') }}" alt="ペット">
+                        <h3>ペット</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/people">
+                        <img src="{{ url_for('static', filename='img/genreimages/people.png') }}" alt="ブログ">
+                        <h3>ブログ</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/tech">
+                        <img src="{{ url_for('static', filename='img/genreimages/tech.png') }}" alt="テクノロジー">
+                        <h3>テクノロジー</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/auto">
+                        <img src="{{ url_for('static', filename='img/genreimages/auto.png') }}" alt="自動車">
+                        <h3>自動車</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/nonprofits">
+                        <img src="{{ url_for('static', filename='img/genreimages/nonprofits.png') }}" alt="非営利">
+                        <h3>非営利</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/cooking">
+                        <img src="{{ url_for('static', filename='img/genreimages/cooking.png') }}" alt="料理">
+                        <h3>料理</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/art">
+                        <img src="{{ url_for('static', filename='img/genreimages/art.png') }}" alt="アート">
+                        <h3>アート</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/fashion">
+                        <img src="{{ url_for('static', filename='img/genreimages/fashion.png') }}" alt="ファッション">
+                        <h3>ファッション</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/business">
+                        <img src="{{ url_for('static', filename='img/genreimages/business.png') }}" alt="ビジネス">
+                        <h3>ビジネス</h3>
+                    </a>
+                </div>
+                <div class="genre-item">
+                    <a href="/genre/health">
+                        <img src="{{ url_for('static', filename='img/genreimages/health.png') }}" alt="健康">
+                        <h3>健康</h3>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Video Finder. All rights reserved.</p>
+    </footer>
+</body>
+</html>

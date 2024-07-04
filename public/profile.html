@@ -1,31 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <script>
+        async function fetchProfile() {
+            const token = localStorage.getItem('token');
+            const response = await fetch('/api/users/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            const user = await response.json();
+            document.getElementById('name').value = user.name || '';
+            document.getElementById('profileImage').value = user.profileImage || '';
+            document.getElementById('bio').value = user.bio || '';
+        }
+
+        async function updateProfile() {
+            const token = localStorage.getItem('token');
+            const updates = {
+                name: document.getElementById('name').value,
+                profileImage: document.getElementById('profileImage').value,
+                bio: document.getElementById('bio').value
+            };
+
+            const response = await fetch('/api/users/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(updates)
+            });
+
+            const updatedUser = await response.json();
+            alert('Profile updated successfully!');
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProfile);
+    </script>
 </head>
 <body>
-    <header>
-        <h1>User Profile</h1>
-        <a href="index.html">Back to Home</a>
-    </header>
-    <main>
-        <section class="user-profile">
-            <h2>Your Profile</h2>
-            <form id="profile-form">
-                <label for="username">Username:</label>
-                <input type="text" id="username" disabled>
-                
-                <label for="email">Email:</label>
-                <input type="email" id="email" required autocomplete="email">
-                
-                <label for="password">New Password:</label>
-                <input type="password" id="new-password" autocomplete="new-password" placeholder="Password" required>
-                
-                <button type="submit" class="button">Update Profile</button>
-            </form>
-        </section>
-    </main>
-    <script src="js/profile.js"></script>
+    <h1>User Profile</h1>
+    <form onsubmit="event.preventDefault(); updateProfile();">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br>
+        <label for="profileImage">Profile Image URL:</label>
+        <input type="text" id="profileImage" name="profileImage"><br>
+        <label for="bio">Bio:</label>
+        <textarea id="bio" name="bio"></textarea><br>
+        <button type="submit">Update Profile</button>
+    </form>
 </body>
 </html>

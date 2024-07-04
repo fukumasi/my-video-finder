@@ -1,56 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>Videos in Genre</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ジャンル別動画一覧</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1 id="genre-title">Videos in Genre</h1>
-        <a href="index.html">Back to Home</a>
+        <h1>Video Finder</h1>
     </header>
     <main>
-        <div id="genre-videos-container">
-            <ul id="genre-video-list">
-                <!-- ジャンルの動画が動的に追加されます -->
-            </ul>
-        </div>
-        <div class="filter-options">
-            <label for="rating-filter">Rating:</label>
-            <select id="rating-filter">
-                <option value="all">All Ratings</option>
-                <option value="5">★★★★★</option>
-                <option value="4">★★★★☆</option>
-                <option value="3">★★★☆☆</option>
-                <option value="2">★★☆☆☆</option>
-                <option value="1">★☆☆☆☆</option>
-            </select>
-
-            <label for="views-filter">Views:</label>
-            <select id="views-filter">
-                <option value="all">All Views</option>
-                <option value="1000">1000+</option>
-                <option value="500">500+</option>
-                <option value="100">100+</option>
-            </select>
-
-            <label for="date-filter">Date:</label>
-            <select id="date-filter">
-                <option value="all">All Dates</option>
-                <option value="7">Last 7 days</option>
-                <option value="30">Last 30 days</option>
-                <option value="365">Last year</option>
-            </select>
-        </div>
-        <div class="sort-options">
-            <label for="sort-by">Sort by:</label>
-            <select id="sort-by">
-                <option value="rating">Rating</option>
-                <option value="views">Views</option>
-                <option value="date">Date</option>
-            </select>
+        <h2 id="genre-title">ジャンル: </h2>
+        <label for="sort">ソート順:</label>
+        <select id="sort">
+            <option value="title">タイトル</option>
+            <option value="views">視聴回数</option>
+            <option value="likes">いいね数</option>
+            <option value="rating">評価</option>
+            <option value="uploadDate">アップロード日</option>
+        </select>
+        <div id="video-list" class="video-list">
+            <!-- Video list will be inserted here -->
         </div>
     </main>
-    <script src="js/script.js"></script>
+    <footer>
+        © 2024 Video Finder. All rights reserved.
+    </footer>
+    <script src="js/genre.js"></script>
 </body>
 </html>

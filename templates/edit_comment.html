@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>コメント編集</title>
+</head>
+<body>
+    <h1>コメント編集</h1>
+    <form action="/video/{{ video.video_id }}/comment/{{ comment._id }}/edit" method="post">
+        <textarea name="text">{{ comment.text }}</textarea>
+        <button type="submit">更新</button>
+    </form>
+    <a href="/video/{{ video.video_id }}">キャンセル</a>
+</body>
+</html>

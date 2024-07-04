@@ -1,86 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Video Finder</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <link rel="icon" href="/path/to/favicon.ico" type="image/x-icon">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Finder</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to My Video Finder</h1>
-        <input type="text" id="search" placeholder="Search for videos...">
-        <button class="button">Search</button>
-        <select id="filter">
-            <option value="all">All Categories</option>
-            <option value="cooking">Cooking</option>
-            <option value="technology">Technology</option>
-            <option value="education">Education</option>
-            <option value="art">Art</option>
-            <option value="testing">Testing</option>
-        </select>
+        <h1>Video Finder</h1>
     </header>
-    <main>
-        <section id="genre-buttons">
-            <h2>Browse by Genre</h2>
-            <a href="genre.html?genre=all" class="category-link" data-category="all">All</a>
-            <a href="genre.html?genre=cooking" class="category-link" data-category="cooking">Cooking</a>
-            <a href="genre.html?genre=technology" class="category-link" data-category="technology">Technology</a>
-            <a href="genre.html?genre=education" class="category-link" data-category="education">Education</a>
-            <a href="genre.html?genre=art" class="category-link" data-category="art">Art</a>
-            <a href="genre.html?genre=testing" class="category-link" data-category="testing">Testing</a>
-        </section>
-
-        <section id="video-container">
-            <ul class="video-list">
-                <!-- 動的に動画リストが追加されます -->
-            </ul>
-        </section>
-
-        <section class="recommended-videos">
-            <h2>Recommended Videos</h2>
-            <ul id="recommendation-list">
-                <!-- 推薦動画が動的に追加されます -->
-            </ul>
-        </section>
-
-        <section class="add-video">
-            <h2>Add New Video</h2>
-            <form id="add-video-form">
-                <input type="text" id="video-title" placeholder="Title" required>
-                <input type="text" id="video-category" placeholder="Category" required>
-                <textarea id="video-description" placeholder="Description" required></textarea>
-                <input type="number" id="video-views" placeholder="Views" required>
-                <input type="number" id="video-likes" placeholder="Likes" required>
-                <input type="number" id="video-rating" placeholder="Rating" required>
-                <button type="submit" class="button">Add Video</button>
-            </form>
-        </section>
-
-        <section class="register-section">
-            <h2>Register</h2>
-            <form id="register-form">
-                <input type="text" id="new-username" placeholder="Username" required>
-                <input type="password" id="new-password" placeholder="Password" required>
-                <button type="submit" class="button">Register</button>
-            </form>
-        </section>
-
-        <section class="login-section">
-            <h2>Login</h2>
-            <form id="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit" class="button">Login</button>
-            </form>
-        </section>
-
-        <section class="dashboard" id="dashboard" style="display: none;">
-            <h2>Welcome, <span id="user-name"></span></h2>
-            <p>Here you can manage your account and see your activity.</p>
-        </section>
-    </main>
-    <script src="js/fetchData.js"></script>
-    <script src="js/script.js"></script>
+    <div class="container">
+        <h2>ジャンル一覧</h2>
+        <div class="genre-list">
+            <div class="genre-item">
+                <h2>Entertainment</h2>
+                <a href="genre.html?genre=entertainment">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Education</h2>
+                <a href="genre.html?genre=education">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Music</h2>
+                <a href="genre.html?genre=music">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>News & Politics</h2>
+                <a href="genre.html?genre=news_politics">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Sports</h2>
+                <a href="genre.html?genre=sports">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Travel & Events</h2>
+                <a href="genre.html?genre=travel_events">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Gaming</h2>
+                <a href="genre.html?genre=gaming">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>How-To & Style</h2>
+                <a href="genre.html?genre=howto_style">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Comedy</h2>
+                <a href="genre.html?genre=comedy">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Film & Animation</h2>
+                <a href="genre.html?genre=film_animation">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Pets & Animals</h2>
+                <a href="genre.html?genre=pets_animals">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>People & Blogs</h2>
+                <a href="genre.html?genre=people_blogs">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Science & Technology</h2>
+                <a href="genre.html?genre=science_technology">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Autos & Vehicles</h2>
+                <a href="genre.html?genre=autos_vehicles">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Nonprofits & Activism</h2>
+                <a href="genre.html?genre=nonprofits_activism">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Cooking</h2>
+                <a href="genre.html?genre=cooking">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Art</h2>
+                <a href="genre.html?genre=art">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Fashion</h2>
+                <a href="genre.html?genre=fashion">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Business</h2>
+                <a href="genre.html?genre=business">動画を見る</a>
+            </div>
+            <div class="genre-item">
+                <h2>Health & Fitness</h2>
+                <a href="genre.html?genre=health_fitness">動画を見る</a>
+            </div>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Video Finder. All rights reserved.</p>
+    </footer>
 </body>
 </html>

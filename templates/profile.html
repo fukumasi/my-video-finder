@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール - {{ user.username }}</title>
+</head>
+<body>
+    <h1>プロフィール</h1>
+    <p>ユーザー名: {{ user.username }}</p>
+    <p>メールアドレス: {{ user.email }}</p>
+    <h2>コメント</h2>
+    <ul>
+        {% for comment in comments %}
+            <li>{{ comment }}</li>
+        {% endfor %}
+    </ul>
+    <h2>評価</h2>
+    <ul>
+        {% for rating in ratings %}
+            <li>{{ rating }}</li>
+        {% endfor %}
+    </ul>
+    <a href="/">ホームに戻る</a>
+</body>
+</html>

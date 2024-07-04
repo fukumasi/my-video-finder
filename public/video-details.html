@@ -1,27 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-    <title>Video Details</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>動画の詳細</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Video Details</h1>
-        <a href="index.html">Back to Home</a>
+        <h1>Video Finder</h1>
     </header>
     <main>
-        <div id="video-details-container">
-            <!-- 動画の詳細がここに表示されます -->
-        </div>
-        <div class="comment-section">
-            <h3>Comments</h3>
-            <div id="comments-container">
-                <!-- コメントがここに表示されます -->
-            </div>
-            <textarea id="new-comment" placeholder="Add a comment..."></textarea>
-            <button id="submit-comment">Submit</button>
+        <div id="video-details">
+            <!-- Video details will be inserted here by videoDetails.js -->
         </div>
     </main>
-    <script src="script.js"></script>
+    <footer>
+        © 2024 Video Finder. All rights reserved.
+    </footer>
+    <script src="js/videoDetails.js"></script>
 </body>
 </html>

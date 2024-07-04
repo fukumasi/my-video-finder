@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ video.title }}</title>
+    <style>
+        .description {
+            overflow: hidden;
+            max-height: 100px; /* 初期表示の高さ */
+            transition: max-height 0.5s ease;
+        }
+        .description.expanded {
+            max-height: none; /* 展開後の高さ制限を解除 */
+        }
+        .toggle-button {
+            color: blue;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ video.title }}</h1>
+    <p class="description" id="video-description">{{ video.description }}</p>
+    <p class="toggle-button" id="toggle-description">もっと見る</p>
+    <p>視聴回数: {{ video.statistics.viewCount }}</p>
+    <p>いいね数: {{ video.statistics.likeCount }}</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0" allowfullscreen></iframe>
+    
+    <h2>評価</h2>
+    <form action="/video/{{ video.video_id }}/rate" method="post">
+        <label for="rating">評価を選択:</label>
+        <select id="rating" name="rating">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <button type="submit">評価を送信</button>
+    </form>
+    <p>平均評価: {{ video.average_rating }}</p>
+    
+    <h2>コメント</h2>
+    <form action="/video/{{ video.video_id }}" method="post" id="comment-form">
+        <textarea name="comment" placeholder="コメントを入力..." required></textarea>
+        <button type="submit">コメントを投稿</button>
+    </form>
+    <ul id="comments-list">
+        {% for comment in video.comments %}
+            <li id="comment-{{ comment._id }}">
+                {{ comment.text }}
+                {% if comment.user_id == current_user.get_id() %}
+                    <a href="/video/{{ video.video_id }}/comment/{{ comment._id }}/edit">編集</a>
+                    <button onclick="confirmDelete('{{ video.video_id }}', '{{ comment._id }}')">削除</button>
+                    <form id="delete-form-{{ comment._id }}" action="/video/{{ video.video_id }}/comment/{{ comment._id }}/delete" method="post" style="display:none;">
+                        <input type="submit">
+                    </form>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <h2>関連動画</h2>
+    <ul>
+        {% for related_video in related_videos %}
+            <li>
+                <a href="/video/{{ related_video.video_id }}">{{ related_video.title }}</a>
+                <p>{{ related_video.description }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+    
+    <script>
+        function confirmDelete(videoId, commentId) {
+            if (confirm('コメントを削除しますか？')) {
+                document.getElementById('delete-form-' + commentId).submit();
+            }
+        }
+
+        document.getElementById('comment-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            
+            fetch(this.action, {
+                method: this.method,
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                const commentList = document.getElementById('comments-list');
+                const newComment = document.createElement('li');
+                newComment.id = 'comment-' + data.comment._id;
+                newComment.innerHTML = `
+                    ${data.comment.text}
+                    <a href="/video/${data.video_id}/comment/${data.comment._id}/edit">編集</a>
+                    <button onclick="confirmDelete('${data.video_id}', '${data.comment._id}')">削除</button>
+                    <form id="delete-form-${data.comment._id}" action="/video/${data.video_id}/comment/${data.comment._id}/delete" method="post" style="display:none;">
+                        <input type="submit">
+                    </form>
+                `;
+                commentList.appendChild(newComment);
+            });
+        });
+
+        document.getElementById('toggle-description').addEventListener('click', function() {
+            const description = document.getElementById('video-description');
+            description.classList.toggle('expanded');
+            this.textContent = description.classList.contains('expanded') ? '閉じる' : 'もっと見る';
+        });
+    </script>
+</body>
+</html>

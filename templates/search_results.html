@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>検索結果</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='js/filter.js') }}"></script>
+</head>
+<body>
+    <header>
+        <h1>検索結果</h1>
+        <nav>
+            <a href="/">ホーム</a>
+            <a href="/logout">ログアウト</a>
+            <a href="/profile">プロフィール</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <h2>{{ query }} の検索結果</h2>
+            <div class="filters">
+                <label for="sort">ソート順:</label>
+                <select id="sort" onchange="applyFilters()">
+                    <option value="relevance">関連性</option>
+                    <option value="date">日付順</option>
+                    <option value="views">視聴回数順</option>
+                </select>
+            </div>
+            <div class="search-results" id="results">
+                {% for video in videos %}
+                <div class="search-item" data-date="{{ video.date }}" data-views="{{ video.views }}">
+                    <a href="/video/{{ video.video_id }}">
+                        <img src="{{ video.thumbnail_url }}" alt="{{ video.title }}">
+                        <h3>{{ video.title }}</h3>
+                    </a>
+                    <p>{{ video.description }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Video Finder. All rights reserved.</p>
+    </footer>
+</body>
+</html>
