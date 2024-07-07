@@ -3,23 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>プロフィール - {{ user.username }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>プロフィール</h1>
-    <p>ユーザー名: {{ user.username }}</p>
-    <p>メールアドレス: {{ user.email }}</p>
-    <h2>コメント</h2>
-    <ul>
-        {% for comment in comments %}
-            <li>{{ comment }}</li>
-        {% endfor %}
-    </ul>
-    <h2>評価</h2>
-    <ul>
-        {% for rating in ratings %}
-            <li>{{ rating }}</li>
-        {% endfor %}
-    </ul>
-    <a href="/">ホームに戻る</a>
+    <header>
+        <h1>プロフィール</h1>
+        <nav>
+            <a href="/">ホーム</a>
+            <a href="/logout">ログアウト</a>
+        </nav>
+    </header>
+    <main>
+        <section>
+            <p>ユーザー名: {{ user.username }}</p>
+            <p>メールアドレス: {{ user.email }}</p>
+            <p><a href="{{ url_for('edit_profile') }}">プロフィール編集</a></p>
+            <h2>コメント</h2>
+            <ul>
+                {% for comment in comments %}
+                    <li>{{ comment.text }} - <small>{{ comment.timestamp }}</small></li>
+                {% endfor %}
+            </ul>
+            <h2>評価</h2>
+            <ul>
+                {% for rating in ratings %}
+                    <li>Video: {{ rating.video_id }} - Rating: {{ rating.rating }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Video Finder. All rights reserved.</p>
+    </footer>
 </body>
 </html>
