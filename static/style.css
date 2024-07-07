@@ -105,7 +105,7 @@ footer {
   width: 300px;
 }
 
-.search-bar select {
+search-bar select {
   margin-left: 10px;
 }
 
@@ -154,7 +154,7 @@ footer {
   margin: 0 0 .5em;
 }
 
-.search-item p {
+search-item p {
   margin: 0;
   color: #555;
 }

@@ -1,36 +1,47 @@
-function applyFilters() {
-    const sort = document.getElementById('sort').value;
-    const results = document.getElementById('results');
-    let items = Array.from(results.getElementsByClassName('search-item'));
-  
-    if (sort === 'date') {
-        items.sort((a, b) => {
-            const dateA = new Date(a.getAttribute('data-date'));
-            const dateB = new Date(b.getAttribute('data-date'));
-            return dateB - dateA;
-        });
-    } else if (sort === 'views') {
-        items.sort((a, b) => {
-            const viewsA = parseInt(a.getAttribute('data-views'), 10);
-            const viewsB = parseInt(b.getAttribute('data-views'), 10);
-            return viewsB - viewsA;
-        });
-    } else {
-        items.sort((a, b) => a.getAttribute('data-original-order') - b.getAttribute('data-original-order'));
-    }
-  
-    results.innerHTML = '';
-    items.forEach(item => {
-        results.appendChild(item);
-    });
-}
-  
-window.onload = function() {
-    const results = document.getElementById('results');
-    if (results) {
-        let items = Array.from(results.getElementsByClassName('search-item'));
-        items.forEach((item, index) => {
-            item.setAttribute('data-original-order', index);
-        });
-    }
-};
+document.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const genre = params.get('genre');
+  const sortSelect = document.getElementById('sort');
+  let sortBy = sortSelect.value;
+
+  if (!genre) {
+      document.getElementById('genre-title').innerText = 'ジャンルが指定されていません';
+      return;
+  }
+
+  document.getElementById('genre-title').innerText = `${genre}の動画`;
+
+  const fetchVideos = async () => {
+      try {
+          const response = await fetch(`/api/videos/filter?genre=${encodeURIComponent(genre)}&sort=${sortBy}`);
+          const videos = await response.json();
+          const videoList = document.getElementById('video-list');
+          videoList.innerHTML = '';
+
+          if (videos.length === 0) {
+              videoList.innerHTML = '<p>このジャンルの動画はありません。</p>';
+          } else {
+              videos.forEach(video => {
+                  const videoElement = document.createElement('div');
+                  videoElement.innerHTML = `
+                      <h3>${video.title}</h3>
+                      <p>${video.description}</p>
+                      <p>評価: ${video.rating}</p>
+                      <a href="video-details.html?id=${video._id}">詳細を見る</a>
+                  `;
+                  videoList.appendChild(videoElement);
+              });
+          }
+      } catch (error) {
+          console.error('Error fetching videos:', error);
+          document.getElementById('video-list').innerHTML = '<p>動画の取得中にエラーが発生しました。</p>';
+      }
+  };
+
+  sortSelect.addEventListener('change', async () => {
+      sortBy = sortSelect.value;
+      await fetchVideos();
+  });
+
+  await fetchVideos();
+});
