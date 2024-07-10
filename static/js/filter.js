@@ -1,47 +1,53 @@
-document.addEventListener('DOMContentLoaded', async () => {
-  const params = new URLSearchParams(window.location.search);
-  const genre = params.get('genre');
-  const sortSelect = document.getElementById('sort');
-  let sortBy = sortSelect.value;
+document.addEventListener('DOMContentLoaded', () => {
+    const genreSelect = document.getElementById('genre-select');
+    const subgenreSelect = document.getElementById('subgenre-select');
+    const sortSelect = document.getElementById('sort-select');
+    const videoContainer = document.getElementById('video-container');
 
-  if (!genre) {
-      document.getElementById('genre-title').innerText = 'ジャンルが指定されていません';
-      return;
-  }
+    function fetchVideos() {
+        const genre = genreSelect ? genreSelect.value : '';
+        const subgenre = subgenreSelect ? subgenreSelect.value : '';
+        const sort = sortSelect ? sortSelect.value : '';
+        const url = `/api/videos/filter?genre=${genre}&subgenre=${subgenre}&sort=${sort}`;
 
-  document.getElementById('genre-title').innerText = `${genre}の動画`;
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                videoContainer.innerHTML = ''; // Clear previous videos
 
-  const fetchVideos = async () => {
-      try {
-          const response = await fetch(`/api/videos/filter?genre=${encodeURIComponent(genre)}&sort=${sortBy}`);
-          const videos = await response.json();
-          const videoList = document.getElementById('video-list');
-          videoList.innerHTML = '';
+                if (data.length === 0) {
+                    videoContainer.innerHTML = '<p>動画が見つかりませんでした。</p>';
+                } else {
+                    data.forEach(video => {
+                        const videoElement = createVideoElement(video);
+                        videoContainer.appendChild(videoElement);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching videos:', error);
+                videoContainer.innerHTML = '<p>動画の取得中にエラーが発生しました。</p>';
+            });
+    }
 
-          if (videos.length === 0) {
-              videoList.innerHTML = '<p>このジャンルの動画はありません。</p>';
-          } else {
-              videos.forEach(video => {
-                  const videoElement = document.createElement('div');
-                  videoElement.innerHTML = `
-                      <h3>${video.title}</h3>
-                      <p>${video.description}</p>
-                      <p>評価: ${video.rating}</p>
-                      <a href="video-details.html?id=${video._id}">詳細を見る</a>
-                  `;
-                  videoList.appendChild(videoElement);
-              });
-          }
-      } catch (error) {
-          console.error('Error fetching videos:', error);
-          document.getElementById('video-list').innerHTML = '<p>動画の取得中にエラーが発生しました。</p>';
-      }
-  };
+    function createVideoElement(video) {
+        const videoDiv = document.createElement('div');
+        videoDiv.classList.add('video-item');
 
-  sortSelect.addEventListener('change', async () => {
-      sortBy = sortSelect.value;
-      await fetchVideos();
-  });
+        const title = document.createElement('h3');
+        title.textContent = video.title;
+        videoDiv.appendChild(title);
 
-  await fetchVideos();
+        const thumbnail = document.createElement('img');
+        thumbnail.src = video.thumbnail_url || video.snippet.thumbnails.medium.url;
+        videoDiv.appendChild(thumbnail);
+
+        const description = document.createElement('p');
+        description.textContent = video.description || video.snippet.description;
+        videoDiv.appendChild(description);
+
+        return videoDiv;
+    }
+
+    window.fetchVideos = fetchVideos;
 });

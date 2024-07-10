@@ -9,7 +9,10 @@ import os
 import logging
 from bson.objectid import ObjectId
 from datetime import datetime
-from utils import get_video_statistics, get_related_videos, search_videos, get_video_details, sort_videos
+from utils import get_video_statistics, get_related_videos, get_video_details, sort_videos, search_videos_youtube, get_next_api_key, search_videos
+from functools import wraps
+import time
+from itertools import cycle
 import requests
 
 load_dotenv()
@@ -74,6 +77,25 @@ def load_user(user_id):
         return User(user_id=str(user_data['_id']), username=user_data['username'], email=user_data['email'])
     return None
 
+def rate_limit(max_per_hour):
+    def decorator(f):
+        last_called = {}
+        
+        @wraps(f)
+        def wrapped(*args, **kwargs):
+            user_id = current_user.get_id() if current_user.is_authenticated else request.remote_addr
+            now = time.time()
+            if user_id in last_called:
+                elapsed = now - last_called[user_id]
+                wait = max(0, 3600 / max_per_hour - elapsed)
+                if wait > 0:
+                    logging.debug(f"Rate limit exceeded. Waiting for {wait} seconds")
+                    time.sleep(wait)
+            last_called[user_id] = now
+            return f(*args, **kwargs)
+        return wrapped
+    return decorator
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -109,14 +131,11 @@ def register():
         email = request.form['email']
         password = request.form['password']
         logging.debug(f'Registration attempt with username: {username}, email: {email}')
-
-        # ユーザーが既に存在するか確認
         existing_user = users.find_one({'email': email})
         if existing_user:
             logging.debug('Email address already registered')
             flash('このメールアドレスは既に登録されています。')
             return redirect(url_for('register'))
-
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
         user_id = users.insert_one({
             'username': username,
@@ -124,13 +143,13 @@ def register():
             'password': hashed_password
         }).inserted_id
         logging.debug(f'User registered with email: {email}')
-        
         user_obj = User(user_id=str(user_id), username=username, email=email)
         login_user(user_obj)
         return redirect(url_for('index'))
     return render_template('register.html')
 
 @app.route('/search')
+@rate_limit(max_per_hour=1000)
 def search():
     query = request.args.get('query')
     genre = request.args.get('genre')
@@ -139,39 +158,33 @@ def search():
     if query or genre:
         videos = search_videos(query, genre)
         
-        # ここで各ビデオにstatistics属性を追加する
         for video in videos:
-            video_id = video['id']['videoId']
-            video['statistics'] = get_video_statistics(video_id)
+            platform = 'youtube' if 'youtube' in video['id'] else 'dailymotion'
+            video_id = video['id'][platform]
+            video['statistics'] = get_video_statistics(video_id, platform)
         
         videos = sort_videos(videos, sort)
         return render_template('search_results.html', query=query, genre=genre, videos=videos)
     return redirect(url_for('index'))
 
 @app.route('/genre/<genre_name>')
+@rate_limit(max_per_hour=1000)
 def genre(genre_name):
     sort = request.args.get('sort', 'relevance')
-    videos = search_videos(query=genre_name)
-    logging.debug(f"Videos found for genre '{genre_name}': {videos}")  # デバッグ用ログ
-    
-    # ここで各ビデオにstatistics属性を追加する
-    for video in videos:
-        video_id = video['id']['videoId']
-        video['statistics'] = get_video_statistics(video_id)
-    
-    videos = sort_videos(videos, sort)
-    return render_template('genre.html', genre=genre_name, videos=videos)
+    subgenre = request.args.get('subgenre')
+    logging.debug(f"Accessing genre page for genre: {genre_name}")
+    logging.debug(f"Sort by: {sort}, Subgenre: {subgenre}")
+    videos = search_videos(query=None, genre=genre_name)  # 修正: query=Noneを追加
+    return render_template('genre.html', genre_name=genre_name, subgenre=subgenre, sort=sort, videos=videos)
 
 @app.route('/video/<video_id>', methods=['GET', 'POST'])
 @login_required
 def video_detail(video_id):
     video = videos.find_one({'video_id': video_id})
-    
     if not video:
         video_details = get_video_details(video_id)
         if not video_details:
             return redirect(url_for('index'))
-        
         video = {
             'video_id': video_id,
             'title': video_details.get('title', 'No Title'),
@@ -190,125 +203,100 @@ def video_detail(video_id):
         }
         videos.update_one({'video_id': video_id}, {'$push': {'comments': comment}})
         return jsonify({'video_id': video_id, 'comment': comment})
-
-    video['statistics'] = get_video_statistics(video_id)
-    video['average_rating'] = sum(rating.get('rating', 0) for rating in video.get('ratings', [])) / len(video.get('ratings', [])) if video.get('ratings') else 0
+    
+    video['statistics'] = get_video_statistics(video_id, 'youtube')
+    video['average_rating'] = sum(video['ratings']) / len(video['ratings']) if video['ratings'] else 0
     related_videos = get_related_videos(video_id)
     return render_template('video_detail.html', video=video, related_videos=related_videos)
 
-@app.route('/video/<video_id>/rate', methods=['POST'])
+@app.route('/api/videos/filter', methods=['GET'])
+@rate_limit(max_per_hour=1000)
+def api_filter_videos():
+    genre = request.args.get('genre')
+    subgenre = request.args.get('subgenre')
+    sort_by = request.args.get('sort', 'relevance')
+    
+    if not genre:
+        return jsonify({"error": "Genre is required"}), 400
+    
+    query = subgenre if subgenre else genre
+    videos = search_videos(query=query, genre=genre)
+    
+    if not videos:
+        logging.debug("No videos found for query")
+    else:
+        for video in videos:
+            platform = 'youtube' if 'youtube' in video['id'] else 'dailymotion'
+            video_id = video['id'][platform]
+            video['statistics'] = get_video_statistics(video_id, platform)
+        videos = sort_videos(videos, sort_by)
+    
+    logging.debug(f"Filtered videos: {videos}")
+    return jsonify(videos)
+
+@app.route('/api/videos/comments', methods=['POST'])
 @login_required
-def rate_video(video_id):
-    rating_value = int(request.form['rating'])
-    rating = {
+@rate_limit(max_per_hour=1000)
+def api_post_comment():
+    data = request.get_json()
+    video_id = data.get('video_id')
+    text = data.get('text')
+    
+    if not video_id or not text:
+        return jsonify({"error": "Video ID and comment text are required"}), 400
+    
+    comment = {
+        '_id': str(ObjectId()),
         'user_id': current_user.get_id(),
-        'rating': rating_value
+        'text': text,
+        'created_at': datetime.now()
     }
-    videos.update_one({'video_id': video_id}, {'$push': {'ratings': rating}})
-    return redirect(url_for('video_detail', video_id=video_id))
+    result = videos.update_one({'video_id': video_id}, {'$push': {'comments': comment}})
+    logging.debug(f"Comment posted: {comment}")
+    return jsonify({"message": "Comment posted successfully"}), 201
 
-@app.route('/video/<video_id>/comment/<comment_id>/delete', methods=['POST'])
+@app.route('/api/videos/ratings', methods=['POST'])
 @login_required
-def delete_comment(video_id, comment_id):
-    video = videos.find_one({'video_id': video_id})
-    if video:
-        updated_comments = [comment for comment in video['comments'] if comment['_id'] != comment_id]
-        videos.update_one({'video_id': video_id}, {'$set': {'comments': updated_comments}})
-    return redirect(url_for('video_detail', video_id=video_id))
-
-@app.route('/video/<video_id>/comment/<comment_id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_comment(video_id, comment_id):
-    video = videos.find_one({'video_id': video_id})
-    if not video:
-        return redirect(url_for('video_detail', video_id=video_id))
+@rate_limit(max_per_hour=1000)
+def api_post_rating():
+    data = request.get_json()
+    video_id = data.get('video_id')
+    rating = data.get('rating')
     
-    comment_to_edit = next((comment for comment in video['comments'] if comment['_id'] == comment_id), None)
-    if not comment_to_edit or comment_to_edit['user_id'] != current_user.get_id():
-        return redirect(url_for('video_detail', video_id=video_id))
+    if not video_id or rating is None:
+        return jsonify({"error": "Video ID and rating are required"}), 400
     
-    if request.method == 'POST':
-        new_text = request.form['comment']
-        for comment in video['comments']:
-            if comment['_id'] == comment_id:
-                comment['text'] = new_text
-                break
-        videos.update_one({'video_id': video_id}, {'$set': {'comments': video['comments']}})
-        return redirect(url_for('video_detail', video_id=video_id))
-    
-    return render_template('edit_comment.html', video_id=video_id, comment=comment_to_edit, video=video)
+    result = videos.update_one({'video_id': video_id}, {'$push': {'ratings': rating}})
+    logging.debug(f"Rating posted: {rating} for video {video_id}")
+    return jsonify({"message": "Rating posted successfully"}), 201
 
-@app.route('/forgot-password', methods=['GET', 'POST'])
-def forgot_password():
-    if request.method == 'POST':
-        email = request.form['email']
-        user = users.find_one({'email': email})
-        if user:
-            token = generate_password_reset_token(email)
-            reset_url = url_for('reset_password', token=token, _external=True)
-            msg = Message('Password Reset Request', recipients=[email])
-            msg.body = f'Click the following link to reset your password: {reset_url}'
-            mail.send(msg)
-            flash('Password reset link sent to your email.')
-        else:
-            flash('Email address not found.')
-    return render_template('forgot_password.html')
+# Dailymotion APIキーを設定
+DAILYMOTION_API_KEY = 'あなたのDailymotion APIキー'
 
-@app.route('/reset-password/<token>', methods=['GET', 'POST'])
-def reset_password(token):
-    email = verify_password_reset_token(token)
-    if not email:
-        flash('The password reset link is invalid or has expired.')
-        return redirect(url_for('forgot_password'))
-
-    if request.method == 'POST':
-        new_password = request.form['password']
-        hashed_password = generate_password_hash(new_password, method='pbkdf2:sha256')
-        users.update_one({'email': email}, {'$set': {'password': hashed_password}})
-        flash('Your password has been reset successfully.')
-        return redirect(url_for('login'))
-
-    return render_template('reset_password.html', token=token)
-
-@app.route('/feedback', methods=['GET', 'POST'])
-@login_required
-def feedback_route():
-    if request.method == 'POST':
-        feedback_text = request.form['feedback']
-        feedback_entry = {
-            'user_id': current_user.get_id(),
-            'feedback': feedback_text,
-            'timestamp': datetime.now()
-        }
-        feedback.insert_one(feedback_entry)
-        flash('Feedback submitted successfully!')
-        return redirect(url_for('index'))
-    return render_template('feedback.html')
-
-def get_related_videos(video_id):
-    api_key = os.getenv('YOUTUBE_API_KEY')
-    url = f'https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId={video_id}&type=video&key={api_key}'
-    
-    logging.debug(f"Request URL: {url}")
-    
+def search_dailymotion_videos(query, limit=5):
+    url = f'https://api.dailymotion.com/videos?search={query}&limit={limit}&fields=id,title,thumbnail_url,channel.name,views_total,created_time'
     response = requests.get(url)
-    logging.debug(f"Response status code: {response.status_code}")
-    logging.debug(f"Response content: {response.json()}")
-    
     if response.status_code == 200:
-        data = response.json()
-        videos = []
-        for item in data.get('items', []):
-            video = {
-                'video_id': item['id']['videoId'],
-                'title': item['snippet']['title'],
-                'description': item['snippet']['description']
-            }
-            videos.append(video)
+        videos = response.json()['list']
+        for video in videos:
+            video['id'] = {'dailymotion': video['id']}
         return videos
     else:
-        logging.error(f"API request failed with status code {response.status_code}: {response.json()}")
         return []
+
+def search_videos(query=None, genre=None, limit=5):
+    youtube_videos = search_videos_youtube(query or genre, limit)
+    dailymotion_videos = search_dailymotion_videos(query or genre, limit)
+    combined_videos = youtube_videos + dailymotion_videos
+    return combined_videos
+
+@app.route('/search_dailymotion')
+def search_dailymotion():
+    query = request.args.get('query', '')
+    if query:
+        videos = search_dailymotion_videos(query)
+        return render_template('search_dailymotion.html', query=query, videos=videos)
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

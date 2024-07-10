@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results for "{{ query }}" - My Video Finder</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">My Video Finder</div>
+        <nav>
+            <a href="{{ url_for('index') }}">ホーム</a>
+            {% if current_user.is_authenticated %}
+            <a href="{{ url_for('logout') }}">ログアウト</a>
+            {% else %}
+            <a href="{{ url_for('login') }}">ログイン</a>
+            <a href="{{ url_for('register') }}">登録</a>
+            {% endif %}
+        </nav>
+    </header>
+    
+    <main class="three-column-layout">
+        <div class="left-sidebar">
+            <h2>絞り込み</h2>
+            <form id="filter-form">
+                <label for="sort">ソート順:</label>
+                <select id="sort" name="sort">
+                    <option value="relevance">関連性</option>
+                    <option value="date">日付順</option>
+                    <option value="viewCount">再生回数順</option>
+                </select>
+                <button type="button" onclick="applyFilters()">適用</button>
+            </form>
+        </div>
+        
+        <div class="main-content">
+            <h2>Search Results for "{{ query }}"</h2>
+            <table class="video-results">
+                <thead>
+                    <tr>
+                        <th>サムネイル</th>
+                        <th>タイトル</th>
+                        <th>チャンネル</th>
+                        <th>再生回数</th>
+                        <th>投稿日</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for video in videos %}
+                    <tr>
+                        <td><a href="https://www.dailymotion.com/video/{{ video.id }}" target="_blank"><img src="{{ video.thumbnail_url }}" alt="{{ video.title }}"></a></td>
+                        <td><a href="https://www.dailymotion.com/video/{{ video.id }}" target="_blank">{{ video.title }}</a></td>
+                        <td>{{ video['channel.name'] }}</td>
+                        <td>{{ video.views_total }}</td>
+                        <td>{{ video.created_time }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="right-sidebar">
+            <h2>有料掲載枠・広告枠</h2>
+            <div class="ad">広告3</div>
+            <div class="ad">広告4</div>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 My Video Finder. All rights reserved.</p>
+    </footer>
+</body>
+</html>

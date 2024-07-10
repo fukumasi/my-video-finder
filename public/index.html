@@ -1,102 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Finder</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My Video Finder</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
     <header>
-        <h1>Video Finder</h1>
+        <h1>My Video Finder</h1>
+        <nav>
+            <a href="/">ホーム</a>
+            <a href="/logout">ログアウト</a>
+            <a href="/profile">プロフィール</a>
+        </nav>
     </header>
     <div class="container">
-        <h2>ジャンル一覧</h2>
-        <div class="genre-list">
-            <div class="genre-item">
-                <h2>Entertainment</h2>
-                <a href="genre.html?genre=entertainment">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Education</h2>
-                <a href="genre.html?genre=education">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Music</h2>
-                <a href="genre.html?genre=music">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>News & Politics</h2>
-                <a href="genre.html?genre=news_politics">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Sports</h2>
-                <a href="genre.html?genre=sports">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Travel & Events</h2>
-                <a href="genre.html?genre=travel_events">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Gaming</h2>
-                <a href="genre.html?genre=gaming">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>How-To & Style</h2>
-                <a href="genre.html?genre=howto_style">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Comedy</h2>
-                <a href="genre.html?genre=comedy">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Film & Animation</h2>
-                <a href="genre.html?genre=film_animation">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Pets & Animals</h2>
-                <a href="genre.html?genre=pets_animals">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>People & Blogs</h2>
-                <a href="genre.html?genre=people_blogs">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Science & Technology</h2>
-                <a href="genre.html?genre=science_technology">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Autos & Vehicles</h2>
-                <a href="genre.html?genre=autos_vehicles">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Nonprofits & Activism</h2>
-                <a href="genre.html?genre=nonprofits_activism">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Cooking</h2>
-                <a href="genre.html?genre=cooking">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Art</h2>
-                <a href="genre.html?genre=art">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Fashion</h2>
-                <a href="genre.html?genre=fashion">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Business</h2>
-                <a href="genre.html?genre=business">動画を見る</a>
-            </div>
-            <div class="genre-item">
-                <h2>Health & Fitness</h2>
-                <a href="genre.html?genre=health_fitness">動画を見る</a>
-            </div>
-        </div>
+        <aside class="sidebar">広告枠・その他</aside>
+        <main class="main-content">
+            <section class="filters">
+                <input type="text" placeholder="キーワード検索">
+                <select id="genre-select">
+                    <option>すべてのジャンル</option>
+                </select>
+                <select id="subgenre-select">
+                    <option>すべてのサブジャンル</option>
+                </select>
+                <select id="sort">
+                    <option value="date">日付順</option>
+                    <option value="viewCount">視聴回数順</option>
+                    <option value="rating">評価順</option>
+                </select>
+                <button>検索</button>
+            </section>
+            <section class="genre-list" id="video-list">
+                <!-- 各ジャンルアイテムをここに配置 -->
+                <div class="genre-item">
+                    <img src="path/to/image.png" alt="ジャンル画像">
+                    <div class="genre-info">
+                        <a href="#">ジャンル名</a>
+                        <p>ジャンルの説明</p>
+                    </div>
+                </div>
+                <!-- 他のジャンルアイテムも同様に -->
+            </section>
+        </main>
+        <aside class="sidebar">有料掲載枠・広告枠</aside>
     </div>
-    <footer class="footer">
-        <p>&copy; 2024 Video Finder. All rights reserved.</p>
+    <footer>
+        &copy; 2024 My Video Finder. All rights reserved.
     </footer>
 </body>
 </html>

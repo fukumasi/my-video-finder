@@ -1,217 +1,142 @@
-/* 共通スタイル */
+/* グローバルスタイル */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: #ffffff;
+  background-color: #f5f5f5;
 }
 
+/* ヘッダー */
 header {
-  background-color: #0044cc;
-  color: white;
-  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  padding: 10px 0;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
 }
 
-h1 {
-  margin: 0;
-  font-size: 24px;
+header .logo {
+  margin-left: 20px;
 }
 
-nav a {
-  color: white;
+header nav {
+  margin-right: 20px;
+}
+
+header nav a {
+  color: #fff;
   text-decoration: none;
-  margin-left: 10px;
-  font-size: 14px;
+  margin: 0 10px;
 }
 
-main {
+header nav a:hover {
+  text-decoration: underline;
+}
+
+/* 検索バー */
+.search-bar {
+  margin: 20px auto;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}
+
+.search-bar form {
+  width: 100%;
+  display: flex;
+}
+
+.search-bar input[type="text"] {
+  flex: 3;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px 0 0 5px;
+}
+
+.search-bar select {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+}
+
+.search-bar button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-left: none;
+  border-radius: 0 5px 5px 0;
+  background-color: #333;
+  color: #fff;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #555;
+}
+
+/* メインコンテンツ */
+.main-content {
+  flex: 2;
   padding: 20px;
 }
 
-section {
-  margin-bottom: 40px;
-}
-
+/* ジャンルリストのスタイル */
 .genre-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 2em;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
 
 .genre-item {
-  width: 200px;
-  margin: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow: hidden;
   text-align: center;
-  background-color: #ffffff;
   padding: 10px;
-  border: 1px solid #cccccc;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, background-color 0.3s;
-}
-
-.genre-item a {
-  color: #333333;
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.genre-item a:hover {
-  transform: scale(1.05);
-  background-color: #e6f7ff;
 }
 
 .genre-item img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
+  margin-bottom: 10px;
 }
 
-.genre-item h3 {
-  margin-top: 10px;
+.genre-info h3 {
+  margin: 0;
   font-size: 16px;
+  color: #333;
 }
 
+.genre-info p {
+  margin: 5px 0 0;
+  color: #7f8c8d;
+}
+
+/* サイドバー */
+.left-sidebar,
+.right-sidebar {
+  flex: 1;
+  padding: 20px;
+  background-color: #ecf0f1;
+}
+
+.left-sidebar .ad, .right-sidebar .ad {
+  background-color: #fff;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+/* フッター */
 footer {
-  background-color: #333333;
+  background-color: #333;
   color: white;
   text-align: center;
-  padding: 10px;
-  font-size: 14px;
-  position: relative;
-  bottom: 0;
+  padding: 10px 0;
+  position: fixed;
   width: 100%;
-}
-
-/* 検索結果ページのスタイル */
-.search-results {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1em;
-}
-
-.search-item {
-  display: flex;
-  align-items: center;
-  width: 80%;
-  margin: 1em 0;
-  padding: 1em;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.search-item img {
-  max-width: 150px;
-  max-height: 100px;
-  margin-right: 1em;
-  border-radius: 4px;
-}
-
-.search-item h3 {
-  font-size: 1.2em;
-  margin: 0 0 0.5em;
-}
-
-.search-item p {
-  margin: 0;
-  color: #555;
-}
-
-@media (max-width: 600px) {
-  .search-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .search-item img {
-    margin-bottom: 1em;
-  }
-}
-
-/* レスポンシブデザイン */
-@media (max-width: 600px) {
-  .genre-list {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-/* 検索バーのスタイル */
-.search-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.search-bar input[type="text"] {
-  padding: 10px;
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.search-bar select {
-  padding: 10px;
-  margin-left: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.search-bar button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #0044cc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #003399;
-}
-/* public/style.css */
-
-/* 検索バーのスタイル */
-.search-bar {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.search-bar input[type="text"] {
-  padding: 10px;
-  width: 300px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.search-bar select {
-  padding: 10px;
-  margin-left: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.search-bar button {
-  padding: 10px 20px;
-  margin-left: 10px;
-  background-color: #0044cc;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.search-bar button:hover {
-  background-color: #003399;
+  bottom: 0;
 }
